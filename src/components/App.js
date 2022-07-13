@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import LocationDetails from "./LocationDetails";
 import ForecastSummaries from "./ForecastSummaries";
 import ForecastDetails from "./ForecastDetails";
+import getForecast from "../requests/getForecast";
 import "../styles/App.css";
 
 function App() {
@@ -14,30 +14,21 @@ function App() {
   );
   const handleForecastSelect = (date) => {
     setSelectedDate(date);
-    const getForecast = () => {
-      const endpoint = "http://mcr-codes-weather-app.herokuapp.com/forecast";
-
-      axios.get(endpoint).then((response) => {
-        setSelectedDate(response.data.forecasts[0].date);
-        setForecasts(response.data.forecasts);
-        setLocation(response.data.location);
-      });
-    };
-    useEffect(() => {
-      getForecast(setSelectedDate, setForecasts, setLocation);
-    }, []);
-
-    return (
-      <div className="Weather-app">
-        <LocationDetails city={location.city} country={location.country} />
-        <ForecastSummaries
-          forecasts={forecasts}
-          onForecastSelect={handleForecastSelect}
-        />
-        {selectedForecast && <ForecastDetails forecast={selectedForecast} />}
-      </div>
-    );
   };
+  useEffect(() => {
+    getForecast(setSelectedDate, setForecasts, setLocation);
+  }, []);
+
+  return (
+    <div className="Weather-app">
+      <LocationDetails city={location.city} country={location.country} />
+      <ForecastSummaries
+        forecasts={forecasts}
+        onForecastSelect={handleForecastSelect}
+      />
+      {selectedForecast && <ForecastDetails forecast={selectedForecast} />}
+    </div>
+  );
 }
 
 export default App;
