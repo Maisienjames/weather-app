@@ -4,7 +4,7 @@ import ForecastDetails from "../../components/ForecastDetails";
 
 describe("ForecastDetails", () => {
   const validProps = {
-    date: "Thu Jan 01 1970",
+    date: 11111111,
     temperature: {
       max: 22,
       min: 12,
